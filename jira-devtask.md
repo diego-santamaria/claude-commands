@@ -2,6 +2,12 @@
 
 Generate a Jira dev-task (child ticket) based on the changes made on the current git branch. If the parent ticket is a Defect, add a re-test comment instead.
 
+## Configuration
+
+Before using this command, set these values for your environment:
+- **JIRA_BASE_URL**: Your Jira instance URL (e.g., `https://your-company.atlassian.net`)
+- **MAIN_BRANCH**: Your repository's main branch (e.g., `main`, `master`, `develop`)
+
 ## Instructions
 
 ### Step 1: Extract Parent Ticket
@@ -16,7 +22,7 @@ Generate a Jira dev-task (child ticket) based on the changes made on the current
 3. **If ticket ID is found in the branch name:**
    - Present the parent ticket URL for user confirmation:
      ```
-     Parent ticket: https://jira.cignium.com/browse/<TICKET-ID>
+     Parent ticket: <JIRA_BASE_URL>/browse/<TICKET-ID>
      ```
    - **Wait for user confirmation before proceeding.**
 
@@ -31,7 +37,7 @@ Generate a Jira dev-task (child ticket) based on the changes made on the current
    jira issue view <TICKET-ID> --plain
    ```
 
-2. Get the main branch (use `imported_cold_transfer` as default for this project).
+2. Get the main branch (detect automatically via `git remote show origin | grep 'HEAD branch'` or use MAIN_BRANCH configuration).
 
 3. Get the list of commits on the current branch:
    ```
@@ -116,7 +122,7 @@ After user confirms:
 
 Return confirmation:
 ```
-Comment added to: https://jira.cignium.com/browse/<TICKET-ID>
+Comment added to: <JIRA_BASE_URL>/browse/<TICKET-ID>
 Status changed to Dev Complete: Yes/No
 ```
 
@@ -128,7 +134,7 @@ jira issue create --type "Dev Task" --parent <PARENT-TICKET-ID> --summary "<TITL
 
 Return the full link to the new ticket:
 ```
-New dev-task created: https://jira.cignium.com/browse/<NEW-TICKET-ID>
+New dev-task created: <JIRA_BASE_URL>/browse/<NEW-TICKET-ID>
 ```
 
 ## Guidelines

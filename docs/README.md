@@ -79,12 +79,12 @@ jira init
 ```
 
 You will be prompted for:
-- **Jira Server URL:** Your Jira instance (e.g., `https://jira.cignium.com`)
+- **Jira Server URL:** Your Jira instance (e.g., `https://your-company.atlassian.net`)
 - **Authentication:** Choose between API token or Personal Access Token (PAT)
-- **Default Project:** Your default project key (e.g., `DATA`)
+- **Default Project:** Your default project key (e.g., `PROJ`)
 
 **Generate API Token:**
-1. Go to your Jira instance → Profile → Personal Access Tokens
+1. Go to your Jira instance → Profile → Personal Access Tokens (or API Tokens for Atlassian Cloud)
 2. Create a new token with appropriate permissions
 3. Use this token during `jira init`
 
@@ -92,7 +92,7 @@ You will be prompted for:
 
 1. Clone this repository to your Claude Code commands directory:
    ```bash
-   git clone <repo-url> ~/.claude/commands
+   git clone https://github.com/diego-santamaria/claude-commands.git ~/.claude/commands
    ```
 
    Or if you already have a commands directory, copy the `.md` files:
@@ -102,19 +102,28 @@ You will be prompted for:
 
 2. Verify the commands are available in Claude Code by typing `/jira-` and checking autocomplete.
 
+## Configuration
+
+Some commands reference configurable values. Update these in the command files as needed:
+
+| Value | File | Description |
+|-------|------|-------------|
+| `JIRA_BASE_URL` | jira-devtask.md | Your Jira instance URL |
+| `MAIN_BRANCH` | jira-devtask.md | Your repository's main branch |
+
 ## Usage Examples
 
 ### Analyze a Bug Ticket
 ```
-/jira-analyze DATA-15127
+/jira-analyze PROJ-123
 ```
 Claude will fetch the ticket, analyze your codebase, identify the bug, propose a fix, and create a PR after your approval.
 
 ### Create a Branch from Ticket
 ```
-/jira-branch DATA-15127
+/jira-branch PROJ-123
 ```
-Claude will generate a branch name like `data-15127-fix-invalid-age-range` and offer to create it locally and/or push to remote.
+Claude will generate a branch name like `proj-123-fix-login-validation` and offer to create it locally and/or push to remote.
 
 ### Generate Dev Task or Re-test Comment
 ```
@@ -135,11 +144,21 @@ Run `gh auth login` to re-authenticate.
 ### Command not found
 Ensure the CLI tools are in your system PATH. Restart your terminal after installation.
 
-### Windows: `findstr` not found
-The commands use Windows-specific `findstr`. If using WSL or Git Bash, you may need to modify `jira-branch.md` to use `grep` instead.
+### Windows: `findstr` vs `grep`
+The `jira-branch.md` command uses Windows `findstr`. If using WSL or Git Bash, replace `findstr` with `grep`.
 
-## Notes
+## Customization
 
-- These commands include confirmation steps before making changes to your codebase or Jira tickets
-- The default main branch for `jira-devtask` is set to `imported_cold_transfer` - modify as needed for your project
-- The default entry point for code analysis is `qual_agent.py` - modify in `jira-analyze.md` for different projects
+These commands are templates designed to be adapted to your workflow:
+
+- **Entry points:** `jira-analyze.md` will ask for guidance if it can't detect the entry point automatically
+- **Branch naming:** Modify `jira-branch.md` to change the branch naming convention
+- **Ticket types:** `jira-devtask.md` handles Defects differently from Stories/Tasks - adjust as needed
+
+## Contributing
+
+Feel free to fork and adapt these commands for your own workflow. Pull requests welcome!
+
+## License
+
+MIT License - Use freely and adapt to your needs.

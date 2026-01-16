@@ -40,7 +40,7 @@ For ticket $ARGUMENTS:
      - Looking at error logs/stack traces for file references
      - Searching for keywords from the bug description in the codebase
      - Identifying the relevant module based on the feature/flow affected
-   - If there isn't enough information to determine the entry point automatically, default to `qual_agent.py`
+   - If there isn't enough information to determine the entry point automatically, ask the user for guidance or look for common entry points (e.g., `main.py`, `app.py`, `index.ts`)
    - Trace the relevant code paths based on the bug description
    - Identify the root cause of the issue
    - Look for related files that may be affected
