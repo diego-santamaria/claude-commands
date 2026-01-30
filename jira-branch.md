@@ -4,6 +4,11 @@ For ticket $ARGUMENTS:
 ```bash
    git remote show origin | findstr "HEAD branch"
 ```
+   Then ask the user to confirm the detected branch with options:
+   - **Confirm (Recommended)**: Use the detected branch
+   - **Specify different branch**: Allow the user to type in a different branch name
+   
+   Save the confirmed branch name for use in step 6.
 
 2. Run `jira issue view $ARGUMENTS --plain` to get the ticket title
 

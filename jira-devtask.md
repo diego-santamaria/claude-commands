@@ -128,13 +128,26 @@ Status changed to Dev Complete: Yes/No
 
 #### For non-Defects (create dev-task):
 
-```
-jira issue create --type "Dev Task" --parent <PARENT-TICKET-ID> --summary "<TITLE>" --body "<DESCRIPTION>"
-```
+1. Create the dev-task and assign it to the current user:
+   ```
+   jira issue create --type "Dev Task" --parent <PARENT-TICKET-ID> --summary "<TITLE>" --body "<DESCRIPTION>" --assignee $(jira me)
+   ```
 
-Return the full link to the new ticket:
+2. Move the dev-task to "In Progress":
+   ```
+   jira issue move <NEW-TICKET-ID> "In Progress"
+   ```
+
+3. Move the dev-task to "Dev Complete":
+   ```
+   jira issue move <NEW-TICKET-ID> "Dev Complete"
+   ```
+
+Return confirmation:
 ```
 New dev-task created: <JIRA_BASE_URL>/browse/<NEW-TICKET-ID>
+Assigned to: <current user>
+Status: In Progress (or Dev Complete if user confirmed)
 ```
 
 ## Guidelines
