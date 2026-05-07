@@ -1,4 +1,4 @@
-Kubernetes log troubleshooting for $ARGUMENTS (use: pod name or keyword, e.g. "col-casey").
+Kubernetes log troubleshooting for $ARGUMENTS (use: pod name or keyword, e.g. "my-service").
 
 Follow these steps in order:
 

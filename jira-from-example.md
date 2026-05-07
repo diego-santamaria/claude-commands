@@ -63,7 +63,7 @@ jira issue create \
 Add `--custom "customfield_10014=<EPIC>"` and `--custom "customfield_10020=<SPRINT_ID>"` only if those fields were set on the example ticket.
 
 ## Rules
-- Always prefix the title with the project tag the user specifies (e.g. `[Casey COL]`)
+- Always prefix the title with the project tag the user specifies (e.g. `[PROJECT TAG]`)
 - Never copy the title or description from the example — only its metadata
 - Bug → Steps to Reproduce / Current Result / Expected Result
 - Story → "As a Software Engineer, I want..."

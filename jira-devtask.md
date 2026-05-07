@@ -17,7 +17,7 @@ Before using this command, set these values for your environment:
    git branch --show-current
    ```
 
-2. Extract the ticket ID from the beginning of the branch name (e.g., `DATA-15127` from `data-15127-add-invoca-genesys-ids-transfer-metadata`). The pattern is typically `<PROJECT>-<NUMBER>` (case-insensitive).
+2. Extract the ticket ID from the beginning of the branch name (e.g., `PROJ-1234` from `proj-1234-add-feature-description`). The pattern is typically `<PROJECT>-<NUMBER>` (case-insensitive).
 
 3. **If ticket ID is found in the branch name:**
    - Present the parent ticket URL for user confirmation:
