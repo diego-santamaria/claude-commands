@@ -62,20 +62,18 @@ Generate a **re-test comment** to add to the parent ticket. The comment should:
 **Comment format:**
 
 ```
-<Greeting> [~reporter.username], <varied phrase saying ticket is ready for re-test>.
+[~reporter.username], this is ready for re-test.
 
-**What was happening:** <Non-technical explanation of the bug from the user's perspective>
+<Optional: What was happening — only include if the Jira description does not clearly explain the bug from the user's perspective>
 
-**What I fixed:** <Non-technical explanation of the solution and what the user should now experience>
-
-<Optional friendly closing>
+<Non-technical explanation of what was fixed and what the user should now experience — no label, just the paragraph>
 ```
 
-**Example greeting/readiness phrases (vary these):**
-- "Hey [~username], this one is ready for re-test."
-- "Hi [~username], I've pushed a fix for this and it´s ready for re-test."
-- "[~username], this should be good to go now. Ready for another round of testing."
-- "Hey [~username], fix is in! Ready for re-test."
+**Rules:**
+- Always start with `[~reporter.username], this is ready for re-test.` — no greeting filler words.
+- Omit the "What was happening" section if the Jira description already clearly describes the bug. Only include it when the context would otherwise be missing for QA.
+- Never use section headers like "What I fixed:" or "What was happening:" — write the fix explanation as a plain paragraph.
+- Keep explanations non-technical — the audience is QA, sometimes developers.
 
 Present the comment to the user and **wait for confirmation before posting**.
 
@@ -157,5 +155,4 @@ Status: In Progress (or Dev Complete if user confirmed)
 - Technical changes should include file names and what was modified
 - Keep the title concise and descriptive (under 80 characters)
 - Use caret (`^`) notation for special characters in code references: `\{value}`
-- For defect comments, keep explanations non-technical - the audience is QA, not developers
-- Vary the comment phrasing each time so it doesn't look auto-generated
+- For defect comments, keep explanations non-technical — the audience is QA, sometimes developers

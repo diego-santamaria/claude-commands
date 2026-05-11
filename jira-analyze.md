@@ -1,14 +1,20 @@
+---
+model: claude-sonnet-4-6
+---
+
 For ticket $ARGUMENTS:
+
+> **Note:** For tickets with complex architectural implications (10+ files, concurrency, distributed systems), run `/model claude-opus-4-7` before this command.
 
 ## Phase 1: Gather Information
 
 1. Verify the ticket exists and get full details:
    ```bash
-   jira issue view $ARGUMENTS
+   jira issue view $ARGUMENTS --plain
    ```
    If the command fails, inform me that the ticket was not found and stop.
 
-2. Extract and analyze all available information:
+2. Extract the ticket code from the URL or argument (e.g., DATA-18532). Then extract and analyze all available information:
    - Summary/Title
    - Description
    - Steps to reproduce
@@ -35,18 +41,17 @@ For ticket $ARGUMENTS:
 
 ## Phase 3: Code Analysis
 
-5. Once confirmed, start analyzing the codebase:
-   - Detect the entry point automatically by:
-     - Looking at error logs/stack traces for file references
-     - Searching for keywords from the bug description in the codebase
-     - Identifying the relevant module based on the feature/flow affected
-   - If there isn't enough information to determine the entry point automatically, ask the user for guidance or look for common entry points (e.g., `main.py`, `app.py`, `index.ts`)
-   - Trace the relevant code paths based on the bug description
-   - Identify the root cause of the issue
-   - Look for related files that may be affected
+5. Once confirmed, start analyzing the codebase — **limit your search to the 3–5 most relevant files**:
+   - Detect the entry point by priority:
+     1. Error logs/stack traces — use exact file references from the trace
+     2. Grep for keywords from the bug description (class names, function names, error strings)
+     3. Identify the relevant module based on the feature/flow affected
+   - If there isn't enough information to determine the entry point, ask for guidance before exploring broadly
+   - Trace only the code paths directly related to the reported behavior
+   - Identify the root cause; stop once found — do not continue exploring unrelated code
 
 6. Present your findings:
-   - Which file(s) contain the bug?
+   - Which file(s) contain the bug? (max 5)
    - How did you identify the entry point?
    - What is the root cause?
    - Show the problematic code snippet(s)
@@ -63,17 +68,15 @@ For ticket $ARGUMENTS:
 
 ## Phase 5: Implement and Create PR
 
-9. Once approved, implement the fix:
-   ```bash
-   # Make the code changes to the identified files
-   ```
+9. Once approved, implement the fix by editing only the identified files.
 
-10. Stage and commit the changes:
+10. Stage only the changed files and commit:
     ```bash
-    git add .
-    git commit -m "<ticket-code>: <short description of fix>"
+    git add <file1> <file2> ...
+    git commit -m "fix: <short description of fix>"
     ```
-    - Commit message format: `TICKET-123: Fix brief description`
+    - Commit message format follows conventional commits: `fix: brief description`
+    - For new features use `feat:`, for refactors use `refactor:`
     - Keep it concise but descriptive
 
 11. Push the branch:

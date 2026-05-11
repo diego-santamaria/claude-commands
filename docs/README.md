@@ -153,13 +153,13 @@ Some commands reference configurable values. Update these in the command files a
 ```
 /jira-analyze PROJ-123
 ```
-Claude will fetch the ticket, analyze your codebase, identify the bug, propose a fix, and create a PR after your approval.
+Claude will fetch the ticket, analyze your codebase (limited to the 3–5 most relevant files), identify the bug, propose a fix, and create a PR after your approval.
 
 ### Create a Branch from Ticket
 ```
 /jira-branch PROJ-123
 ```
-Claude will generate a branch name like `proj-123-fix-login-validation` and offer to create it locally and/or push to remote.
+Claude will generate a branch name like `proj-123-fix-login-validation`, then offer to create it locally and push to remote in one step. The base branch preference is saved to project memory so you're only asked once per repo.
 
 ### Generate Dev Task or Re-test Comment
 ```
@@ -167,7 +167,7 @@ Claude will generate a branch name like `proj-123-fix-login-validation` and offe
 ```
 Claude will analyze your current branch's commits and either:
 - Create a dev-task (for Stories/Tasks)
-- Add a re-test comment (for Defects)
+- Add a re-test comment to the parent ticket (for Defects) — written as a plain paragraph addressed to the reporter, no greeting filler or section headers
 
 ### Create a Ticket from an Example
 ```
@@ -212,7 +212,7 @@ The `jira-branch.md` command uses Windows `findstr`. If using WSL or Git Bash, r
 
 These commands are templates designed to be adapted to your workflow:
 
-- **Entry points:** `jira-analyze.md` will ask for guidance if it can't detect the entry point automatically
+- **Entry points:** `jira-analyze.md` limits code analysis to 3–5 files and asks for guidance before exploring broadly if the entry point is unclear
 - **Branch naming:** Modify `jira-branch.md` to change the branch naming convention
 - **Ticket types:** `jira-devtask.md` handles Defects differently from Stories/Tasks - adjust as needed
 - **Jira fields:** `jira-from-example.md` copies common custom fields (epic, sprint, team) — extend the field list as needed for your Jira configuration
