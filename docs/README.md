@@ -10,7 +10,7 @@ Custom slash commands for Claude Code that integrate Jira, GitHub, and Kubernete
 | `/jira-branch <TICKET-ID>` | Create a standardized git branch from a Jira ticket |
 | `/jira-devtask` | Generate a dev-task or re-test comment based on current branch changes |
 | `/jira-from-example <EXAMPLE-TICKET-ID>` | Create a new Jira ticket by copying metadata from an existing ticket |
-| `/k8s-logs <pod-name-or-keyword>` | Troubleshoot Kubernetes pod logs with guided error filtering and scaling analysis |
+| `/k8s-logs <deployment-shortname> [env]` | Run a structured health check on a Kubernetes deployment (QA or PROD) |
 
 ## Prerequisites
 
@@ -122,7 +122,7 @@ kubectl config current-context
 kubectl get nodes
 ```
 
-> **Important:** The `/k8s-logs` command always asks you to confirm the active cluster context before running any operations. Never skip this confirmation — it prevents accidental commands against production.
+> **Important:** If you supply an `env` argument (`qa` or `prod`), the command switches context automatically. If omitted, it asks first. PROD runs are labeled with a warning so you always know which environment is targeted.
 
 ## Installation
 
@@ -175,16 +175,18 @@ Claude will analyze your current branch's commits and either:
 ```
 Claude fetches metadata (project, type, priority, assignee, epic, sprint, labels) from `PROJ-100` and applies it to a new ticket you describe. You provide the title and problem; Claude formats the description according to the issue type (Bug or Story).
 
-### Troubleshoot Kubernetes Pod Logs
+### Check Kubernetes Deployment Health
 ```
-/k8s-logs my-service
+/k8s-logs col-casey qa
+/k8s-logs mlf prod
+/k8s-logs apaibackend        # env not supplied → Claude asks
 ```
 Claude will:
-1. Show your current cluster context and ask for confirmation before proceeding
-2. Find matching pods across all namespaces
-3. Pull and filter logs for errors, warnings, and capacity issues
-4. Check replica counts and horizontal pod autoscaler (HPA) status
-5. Surface Kubernetes events for the namespace
+1. Switch to the correct kubectl context (QA or PROD) based on the env argument
+2. Find matching pods and select the most relevant replica
+3. Render a structured health-check table: phase, restart count, image, app registration, errors, resource usage, HPA status
+4. For degraded or failing pods, add a diagnosis block with root cause and suggested next steps
+5. Never run write operations (scale, restart, delete) on PROD without explicit approval
 
 ## Troubleshooting
 
